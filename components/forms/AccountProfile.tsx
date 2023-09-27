@@ -221,7 +221,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
 
         {/* //todo add preview functionality */}
         <Button className="bg-primary-500" type="submit">
-          Submit & preview
+          Submit
         </Button>
       </form>
     </Form>

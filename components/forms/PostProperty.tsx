@@ -703,7 +703,7 @@ const PostProperty = ({ userId }: { userId: string }) => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Submit & preview</Button>
       </form>
     </Form>
   );
