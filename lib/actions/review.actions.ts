@@ -43,15 +43,20 @@ export async function createReview({
 }
 
 export async function fetchReviews(propertyId: string) {
-  connectToDB();
+  try {
+    connectToDB();
 
-  // Fetch reviews for the given property
-  const reviews = await Review.find({ property: propertyId })
-    .sort({
-      createdAt: "desc",
-    })
-    .populate({ path: "author", model: User, select: "_id id name image" })
-    .exec();
+    // Fetch reviews for the given property
+    const reviews = await Review.find({ property: propertyId })
+      .sort({
+        createdAt: "desc",
+      })
+      .populate({ path: "author", model: User, select: "_id id name image" });
+    // .exec();
 
-  return reviews;
+    return reviews;
+  } catch (error: any) {
+    console.error("Error fetching reviews:", error.message);
+    throw error; // You can handle this error as needed in your application
+  }
 }

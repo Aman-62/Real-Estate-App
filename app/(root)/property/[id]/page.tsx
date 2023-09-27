@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { formatIndianPrice } from "@/lib/utils";
 import PostReview from "@/components/forms/PostReview";
+import { fetchReviews } from "@/lib/actions/review.actions";
+import Image from "next/image";
 
 const Page = async ({ params }: { params: { id: string } }) => {
   if (!params.id) return null;
@@ -16,6 +18,9 @@ const Page = async ({ params }: { params: { id: string } }) => {
   if (!userInfo.onboarded) redirect("/onboarding");
 
   const property = await fetchPropertyById(params.id);
+  let allReviews = [];
+  allReviews = await fetchReviews(property._id);
+  console.log(allReviews);
 
   const {
     _id,
@@ -87,6 +92,39 @@ const Page = async ({ params }: { params: { id: string } }) => {
         <div className="mt-4">
           <h2 className="text-heading4-medium">PostReview</h2>
           <PostReview propertyId={_id} userId={userInfo._id} />
+          {allReviews.map((review) => {
+            const {
+              _id,
+              author: { image, name },
+              rating,
+              comment,
+            } = review;
+            return (
+              <div key={_id} className="mt-3  p-2 bg-white shadow rounded-lg">
+                <div className="flex gap-3 items-center">
+                  <Image
+                    width={34}
+                    height={34}
+                    className="rounded-full"
+                    src={image}
+                    alt="profile"
+                  />
+                  <div className="flex">
+                    {rating}
+                    <Image
+                      src={"/assets/heart-filled.svg"}
+                      width={24}
+                      height={24}
+                      alt="star"
+                    />
+                  </div>
+                </div>
+                <div className="mt-2">
+                  <p>{comment}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

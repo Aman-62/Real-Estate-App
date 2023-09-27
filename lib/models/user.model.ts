@@ -6,17 +6,16 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   image: String,
   bio: String,
-  //* user's properties
+  onboarded: {
+    type: Boolean,
+    default: false,
+  },
   properties: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Property",
     },
   ],
-  onboarded: {
-    type: Boolean,
-    default: false,
-  },
   communities: [
     {
       type: mongoose.Schema.Types.ObjectId,
